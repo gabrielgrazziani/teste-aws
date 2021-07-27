@@ -12,9 +12,10 @@ phases:
       - AWS_ACCOUNT_ID="$account_id"
       - AWS_DEFAULT_REGION=sa-east-1
       - IMAGE_TAG=latest
+      - URL_ECR = $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker build -t $URL_ECR .
 
   post_build:
     commands:
@@ -22,8 +23,8 @@ phases:
       - echo Pushing the Docker image...
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - printf '[{"name":"codebuild-docker","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG >> imagedefinitions.json
+      - docker push $URL_ECR
+      - echo '[{"name":"codebuild-docker","imageUri":"$URL_ECR"}]' > imagedefinitions.json
       - sh build.sh
 
 artifacts:

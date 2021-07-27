@@ -25,6 +25,7 @@ phases:
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - docker push $URL_ECR
       - echo '[{"name":"codebuild-docker","imageUri":"$URL_ECR"}]' > imagedefinitions.json
+      - cat imagedefinitions.json
       - sh build.sh
 
 artifacts:

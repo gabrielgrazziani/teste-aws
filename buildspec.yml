@@ -10,7 +10,7 @@ phases:
     commands:
       - IMAGE_REPO_NAME=gabrielgrazziani-ot5-containers
       - AWS_ACCOUNT_ID="$account_id"
-      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_DEFAULT_REGION=us-east-2
       - IMAGE_TAG=latest
       - echo Build started on `date`
       - echo Building the Docker image...

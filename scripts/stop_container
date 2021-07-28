@@ -1,0 +1,6 @@
+#!/bin/bash
+
+isExisApp=`podman ps | grep codebuild-docker`
+if [[ -n $isExisApp]]; then
+  podman rm -f codebuild-docker
+fi

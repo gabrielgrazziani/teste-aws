@@ -2,5 +2,6 @@
 aws ecr get-login-password --region us-east-1 | podman login --username AWS --password-stdin 208471844409.dkr.ecr.us-east-1.amazonaws.com/ot5-gabrielgrazziani-containers
 
 isExisApp=`podman ps | grep codebuild-docker`
-
-podman run -p 8081:80 -dt --name codebuild-docker 208471844409.dkr.ecr.us-east-1.amazonaws.com/ot5-gabrielgrazziani-containers:latest
+if [[ -n $isExisApp ]]; then
+  podman rm -f codebuild-docker && podman run -p 8081:80 -dt --name codebuild-docker 208471844409.dkr.ecr.us-east-1.amazonaws.com/ot5-gabrielgrazziani-containers:latest
+fi
